@@ -115,16 +115,7 @@ def LoadModeloUrnasDataFrame():
 
     df['MODELO_URNA'] = df.MODELO_URNA_1T.combine_first(df.MODELO_URNA_2T)
     df['SE_UE2020'] = [i == 'UE2020' for i in df.MODELO_URNA]
-    df = df.drop(['ID_SECAO', 'MODELO_URNA_1T', 'MODELO_URNA_2T'], axis=1)
-
-    df.at['RN_17434_30_77', 'MODELO_URNA'] = 'UE2011'
-    df.at['RN_17434_30_77', 'SE_UE2020'] = False
-    df.at['RN_16918_54_90', 'MODELO_URNA'] = 'UE2011'
-    df.at['RN_16918_54_90', 'SE_UE2020'] = False
-    df.at['RS_87378_62_35', 'MODELO_URNA'] = 'UE2010'
-    df.at['RS_87378_62_35', 'SE_UE2020'] = False
-    df.at['CE_14192_40_50', 'MODELO_URNA'] = 'UE2015'
-    df.at['CE_14192_40_50', 'SE_UE2020'] = False
+    df = df.drop(['ID_SECAO', 'MODELO_URNA_1T', 'MODELO_URNA_2T', 'CD_MUNICIPIO', 'NR_ZONA', 'NR_SECAO'], axis=1)
 
     return df
 
@@ -145,7 +136,7 @@ def Main():
         print('Downloading ', url)
         urllib.request.urlretrieve(url, filename)
 
-        print('Working with %s' % filename)
+        print('Processando %s' % filename)
 
         zip_file = zipfile.ZipFile(filename)
 
@@ -168,6 +159,8 @@ def Main():
                     str(nr_zona),
                     str(nr_secao)
                 )
+
+                print('\t Processando %s' %section_id)
 
                 if section_id in data:
                     section_data = data[section_id]
